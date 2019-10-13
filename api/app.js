@@ -58,44 +58,20 @@ app.use(bodyParser.json());
 
 
 
-app.post('/note', cors(), function (req, res, next) {
-    //Create a new kee and save to DB
-    // console.log(req.body);
-    // console.log(req.body);
-    // console.log(req.user);
 
-    // var note = req.body
-    // console.log(note)
+// //single note page
+// app.get('/:id', cors(), function (req, res, next) {
+//     // find campgorund with correct id, render the template
+//     Note.findById(req.params.id, function (err, foundNote) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             // res.render('single',{notes:foundNote});
+//             res.send({ notes: foundNote });
+//         }
+//     });
 
-    // console.log(req);
-    var newNote = { note: req.body.note };
-    // console.log(newNote)
-    Note.create(newNote, function (err, newlyCreated) {
-        if (err) {
-            //later this should be front end error message
-            console.log(err);
-        } else {
-            // res.redirect('/');
-            console.log(newlyCreated);
-            // console.log(req.body._id);
-        }
-    });
-});
-
-
-//single note page
-app.get('/:id', cors(), function (req, res, next) {
-    // find campgorund with correct id, render the template
-    Note.findById(req.params.id, function (err, foundNote) {
-        if (err) {
-            console.log(err);
-        } else {
-            // res.render('single',{notes:foundNote});
-            res.send({ notes: foundNote });
-        }
-    });
-
-});
+// });
 
 //note list page
 app.get('/', cors(), function (req, res, next) {
