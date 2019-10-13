@@ -1,0 +1,28 @@
+{
+  "name": "magic-mirror",
+  "version": "1.0.0",
+  "description": "Server for my magic mirror",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DCU4/magic-mirror.git"
+  },
+  "author": "Dylan Connor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DCU4/magic-mirror/issues"
+  },
+  "homepage": "https://github.com/DCU4/magic-mirror#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.3",
+    "method-override": "^3.0.0"
+  }
+}
