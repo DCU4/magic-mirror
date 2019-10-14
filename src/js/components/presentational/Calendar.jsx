@@ -8,32 +8,65 @@ export default class Weather extends Component {
     super(props);
     this.state = {
       class: "",
-      calendar: ''
+      events: []
     }
   }
-
+  
+  authInited = gapiPromise.then(function(){
+    gapi.auth2.init({
+        client_id: CALENDAR_ID
+      });
+  })
 
   getCalendar = async (e) => {
 
 
-    const api_call = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}`);
-    const data = await api_call.json();
-    console.log(data);
-    if (data){
-      this.setState({
-        // calendar: data.main.temp,
-        class: undefined,
-      });
-    } else {
-      this.setState({
-        // calendar: undefined,
-        class: undefined,
+    // const api_call = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}&key=${API_KEY}`, {
+    //   headers : {
+    //     'Authorization': 'Oauth ${CALENDAR_ID}'
+    //   }
+    // });
+    // const data = await api_call.json();
+    // console.log(data);
+    // if (data){
+    //   this.setState({
+    //     // calendar: data.main.temp,
+    //     class: undefined,
+    //   });
+    // } else {
+    //   this.setState({
+    //     // calendar: undefined,
+    //     class: undefined,
 
-      });
-    }
+    //   });
+    // }
+
+
+    let that = this;
+  function start() {
+
+    gapi.client.init({
+      'apiKey': API_KEY
+    }).then(function() {
+      return gapi.client.request({
+        'path': `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events`,
+      })
+    }).then( (response) => {
+      let events = response.result.items
+      that.setState({
+        events
+      }, ()=>{
+        console.log(that.state.events);
+      })
+    }, function(reason) {
+      console.log(reason);
+    });
+  }
+  window.gapi.load('client', start)
   }
 
   componentDidMount() {
+
     this.getCalendar();
   }
 
