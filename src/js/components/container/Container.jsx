@@ -16,14 +16,15 @@ class Container extends Component {
 
     return (
       <main>
-        <header>
+        {/* // <header> */}
           {/* im thinking like, calendar and weather on top */}
-          <Calendar />
+          
           <Weather />
-        </header>
+          <Calendar />
+        {/* // </header> */}
 
         
-      </main>
+       </main>
       );
   }
 }

@@ -1,81 +1,62 @@
 import React, { Component } from "react";
 
-export default class Calendar extends Component {
-  _isMounted = false;
+const CALENDAR_ID = '695573733195-bcosc8sjla6b248jm2p6guf56m99dcon.apps.googleusercontent.com';
+const API_KEY = 'AIzaSyAHIB2qQp3jHsiLjn74eHZFT7gXFlpQYUg';
 
+export default class Weather extends Component {
   constructor(props) {
     super(props);
     this.state = {
       class: "",
-      apiResponse: ""
-    };
+      calendar: ''
+    }
   }
 
-  // getSingleNote() {
-  //   let id = this.props.id;
 
-  //   if (!this.props || id == undefined) {
-  //     return null; //You can change here to put a customized loading spinner
-  //   }
+  getCalendar = async (e) => {
 
-  //   // let url = "https://dc-notes.herokuapp.com/" + id;
-  //   let url = 'https://localhost:8080' + id;
-  //   fetch(url)
-	// 	.then(res => res.json())
-	// 	.then(
-	// 		res => {
-	// 			if (this._isMounted) {
-	// 				this.setState({ apiResponse: res });
-	// 			}
-	// 		}
-	// 	);
-  // }
 
-  // editNote = e => {
-  //   // e.preventDefault();
-  //   let id = this.props.id;
+    const api_call = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}`);
+    const data = await api_call.json();
+    console.log(data);
+    if (data){
+      this.setState({
+        // calendar: data.main.temp,
+        class: undefined,
+      });
+    } else {
+      this.setState({
+        // calendar: undefined,
+        class: undefined,
 
-  //   if (!this.props || id == undefined) {
-  //     return null; //You can change here to put a customized loading spinner
-  //   }
-  //   let url = 'https://localhost:27017' + id + "/?_method=PUT";
-  //   // let url = "https://dc-notes.herokuapp.com/" + id + "/?_method=PUT";
-  //   let data = "note="+this.props.note;
-  //   fetch(url, {
-  //     method: "POST",
-  //     body: data,
-  //     mode: "no-cors", // no-cors, cors, *same-origin
-  //     // credentials: 'same-origin', // include, *same-origin, omit
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //     }
-  //   })
-  //     .then(res => res.json())
-  //     .catch(function(error) {
-  //       console.error("Error:", error);
-  //     });
-  //     console.log('edited note');
-  // }
+      });
+    }
+  }
 
-  // componentWillMount() {
-  //   this._isMounted = true;
-  //   this.getSingleNote();
-  // }
-  // componentWillUnmount() {
-  //   this._isMounted = false;
-  //   this.getSingleNote();
-  // }
+  componentDidMount() {
+    this.getCalendar();
+  }
 
   render() {
-    // let note = this.state.apiResponse;
-    
-    if (!this.props || note.notes == undefined) {
-      return null; //You can change here to put a customized loading spinner
-    }
+
+    // if (!this.props || this.props.note == undefined) {
+    //   return null; //You can change here to put a customized loading spinner
+    // }
+
     return (
       <section>
-        {/* Output data from calendar api */}
+        {/* <p>Calendar
+        id
+695573733195-bcosc8sjla6b248jm2p6guf56m99dcon.apps.googleusercontent.com
+
+secret
+kBLZL5b45eUjEbH1-oT1kPb7
+
+api key = AIzaSyAHIB2qQp3jHsiLjn74eHZFT7gXFlpQYUg
+        </p> */}
+      {/* Output data for weather from api */}
       </section>
+
     );
   }
 }

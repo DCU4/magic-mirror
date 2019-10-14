@@ -1,50 +1,72 @@
 import React, { Component } from "react";
 
-export default class Weather extends Component {
+const API_KEY = '55f630c614c9ef35570a0ea5e189ade3';
+
+export default class Calendar extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
-      class: ""
+      temperature: undefined,
+      city: undefined,
+      country: undefined,
+      humidity: undefined,
+      description: undefined,
+      error: undefined,
+      class: ''
+    };
+  }
+
+  
+
+  getWeather = async (e) => {
+    // e.preventDefault();
+    // console.log(e.target);
+    // const city = e.target.elements.city.value;
+    // const country = e.target.elements.country.value;
+    const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=alexandria,usa&appid=${API_KEY}&units=imperial`);
+    const data = await api_call.json();
+    console.log(data);
+    if (data){
+      this.setState({
+        temperature: data.main.temp,
+        city: data.name,
+        country: data.sys.country,
+        humidity: data.main.humidity,
+        description: data.weather[0].description,
+        error: undefined,
+        class:'submitted showing '
+      });
+    } else {
+      this.setState({
+        temperature: undefined,
+        city: undefined,
+        country: undefined,
+        humidity: undefined,
+        description: undefined,
+        error: "Please enter a City and Country Code",
+        class: ''
+      });
     }
   }
 
-  // deleteNote = del => {
-
-  //   let id = this.props.id;
-  //   if (!this.props || id == undefined) {
-  //     return null; //You can change here to put a customized loading spinner
-  //   }
-  //   let url = 'https://localhost:8080' + id;
-  //   // let url = "https://dc-notes.herokuapp.com/" + id + "/?_method=DELETE";
-  //   fetch(url, {
-  //     method: "POST",
-  //     mode: "no-cors", // no-cors, cors, *same-origin
-  //     // credentials: 'same-origin', // include, *same-origin, omit
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //     }
-  //   })
-  //   .then(res => res.json())
-  //   .catch(function(error) {
-  //     console.error("Error:", error);
-  //   }).then(this.setState({
-  //     delete: !this.state.delete ? true : false
-  //   }));
-    
-  // }
-
+  componentDidMount() {
+    this.getWeather();
+  }
 
   render() {
-
-    if (!this.props || this.props.note == undefined) {
-      return null; //You can change here to put a customized loading spinner
-    }
+    const deg = <span>&#176;</span>; //degree symbol
+    let temp = Math.floor(this.state.temperature);
 
     return (
-      <section>
-      {/* Output data for weather from api */}
+      <section className="weather">
+        <p className="city">{this.state.city}</p>
+        <p className="temp">{temp}<span>{deg}</span></p>
+        <p className="description">{this.state.description}</p>
+        
+        {/* Output data from calendar api */}
       </section>
-
     );
   }
 }

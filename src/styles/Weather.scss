@@ -1,0 +1,19 @@
+section.weather {
+  padding: 50px 25px;
+  opacity:0;
+  animation: fade-in 0.5s ease-in forwards;
+  p {
+    &.city {
+      font-size: .45em;
+      
+    }
+    &.temp {
+      font-size: 1.5em;
+      
+    }
+    &.description {
+      font-size: .45em;
+      
+    }
+  }
+}
