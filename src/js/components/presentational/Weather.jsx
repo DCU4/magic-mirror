@@ -21,10 +21,6 @@ export default class Calendar extends Component {
   
 
   getWeather = async (e) => {
-    // e.preventDefault();
-    // console.log(e.target);
-    // const city = e.target.elements.city.value;
-    // const country = e.target.elements.country.value;
     const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=alexandria,usa&appid=${API_KEY}&units=imperial`);
     const data = await api_call.json();
     console.log(data);
@@ -56,13 +52,13 @@ export default class Calendar extends Component {
   }
 
   render() {
-    const deg = <span>&#176;</span>; //degree symbol
+    const deg = <sup>&#176;</sup>; //degree symbol
     let temp = Math.floor(this.state.temperature);
 
     return (
       <section className="weather">
         <p className="city">{this.state.city}</p>
-        <p className="temp">{temp}<span>{deg}</span></p>
+        <p className="temp">{temp}{deg}</p>
         <p className="description">{this.state.description}</p>
         
         {/* Output data from calendar api */}

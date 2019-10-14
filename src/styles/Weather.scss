@@ -9,11 +9,14 @@ section.weather {
     }
     &.temp {
       font-size: 1.5em;
+      sup {
+        font-size:.6em;
+      }
       
     }
     &.description {
       font-size: .75em;
-      
+      text-transform: capitalize;
     }
   }
 }
