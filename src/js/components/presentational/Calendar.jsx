@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 
-const CALENDAR_ID = '695573733195-bcosc8sjla6b248jm2p6guf56m99dcon.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyAHIB2qQp3jHsiLjn74eHZFT7gXFlpQYUg';
-
 export default class Weather extends Component {
   constructor(props) {
     super(props);
@@ -12,18 +9,7 @@ export default class Weather extends Component {
     }
   }
   
-  
-
-  // getDate = (e) => {
-
-
-  // }
-
-  // componentDidMount() {
-
-  //   this.getDate();
-  // }
-
+ 
   render() {
     let date = new Date();
     
