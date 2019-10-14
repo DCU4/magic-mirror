@@ -12,82 +12,45 @@ export default class Weather extends Component {
     }
   }
   
-  authInited = gapiPromise.then(function(){
-    gapi.auth2.init({
-        client_id: CALENDAR_ID
-      });
-  })
+  
 
-  getCalendar = async (e) => {
+  // getDate = (e) => {
 
 
-    // const api_call = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}&key=${API_KEY}`, {
-    //   headers : {
-    //     'Authorization': 'Oauth ${CALENDAR_ID}'
-    //   }
-    // });
-    // const data = await api_call.json();
-    // console.log(data);
-    // if (data){
-    //   this.setState({
-    //     // calendar: data.main.temp,
-    //     class: undefined,
-    //   });
-    // } else {
-    //   this.setState({
-    //     // calendar: undefined,
-    //     class: undefined,
+  // }
 
-    //   });
-    // }
+  // componentDidMount() {
 
-
-    let that = this;
-  function start() {
-
-    gapi.client.init({
-      'apiKey': API_KEY
-    }).then(function() {
-      return gapi.client.request({
-        'path': `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events`,
-      })
-    }).then( (response) => {
-      let events = response.result.items
-      that.setState({
-        events
-      }, ()=>{
-        console.log(that.state.events);
-      })
-    }, function(reason) {
-      console.log(reason);
-    });
-  }
-  window.gapi.load('client', start)
-  }
-
-  componentDidMount() {
-
-    this.getCalendar();
-  }
+  //   this.getDate();
+  // }
 
   render() {
+    let date = new Date();
+    
 
-    // if (!this.props || this.props.note == undefined) {
-    //   return null; //You can change here to put a customized loading spinner
-    // }
+    var month = [];
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    var day = date.getDate();
+    var year = date.getFullYear();
+    var mon = month[date.getMonth()]
 
     return (
-      <section>
-        {/* <p>Calendar
-        id
-695573733195-bcosc8sjla6b248jm2p6guf56m99dcon.apps.googleusercontent.com
+      <section className="calendar">
+        <p className="month">{mon}</p>
+        <p className="day">{day}</p>
+        <p className="year">{year}</p>
 
-secret
-kBLZL5b45eUjEbH1-oT1kPb7
-
-api key = AIzaSyAHIB2qQp3jHsiLjn74eHZFT7gXFlpQYUg
-        </p> */}
-      {/* Output data for weather from api */}
       </section>
 
     );
