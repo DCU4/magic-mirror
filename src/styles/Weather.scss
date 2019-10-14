@@ -4,7 +4,7 @@ section.weather {
   animation: fade-in 0.5s ease-in forwards;
   p {
     &.city {
-      font-size: .45em;
+      font-size: .75em;
       
     }
     &.temp {
@@ -12,7 +12,7 @@ section.weather {
       
     }
     &.description {
-      font-size: .45em;
+      font-size: .75em;
       
     }
   }

@@ -2,16 +2,15 @@ section.calendar {
   padding: 50px 25px;
   opacity:0;
   animation: fade-in 0.5s ease-in forwards;
-  text-align: center;
   p {
     &.month {
-      font-size: .45em;
+      font-size: .75em;
     }
     &.day {
       font-size: 1.5em;
     }
     &.year {
-      font-size: .45em;
+      font-size: .75em;
     }
   }
 }
