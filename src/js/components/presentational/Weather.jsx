@@ -83,7 +83,7 @@ export default class Calendar extends Component {
       <main>
         
 {!showMoreWeather ? (
-  <section className="weather-info" onClick={this.handleShowWeather}>
+  <section className="weather-info" onClick={this.handleShowWeather} onTouch={this.handleShowWeather}>
   <p className="city">{this.state.city}</p>
   <p className="temp">{temp}{deg}</p>
   <p className="description">{this.state.description}</p>
@@ -92,7 +92,7 @@ export default class Calendar extends Component {
 
 ) : (
 
-  <section className="more-weather-info" onClick={this.handleShowWeather}>
+  <section className="more-weather-info" onClick={this.handleShowWeather} onTouch={this.handleShowWeather}>
   <p className="humidity">Humidity: {this.state.humidity}%</p>
   <p className="temp-max">Max Temp: {this.state.temp_max}{deg}</p>
   <p className="temp-min">Min Temp: {this.state.temp_min}{deg}</p>
