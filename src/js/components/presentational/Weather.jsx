@@ -8,12 +8,18 @@ export default class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showMoreWeather:false,
       temperature: undefined,
       city: undefined,
       country: undefined,
       humidity: undefined,
       description: undefined,
+      temp: undefined,
+      pressure: undefined,
+      temp_max: undefined,
+      temp_min: undefined,
       error: undefined,
+      
       class: ''
     };
   }
@@ -29,8 +35,10 @@ export default class Calendar extends Component {
         temperature: data.main.temp,
         city: data.name,
         country: data.sys.country,
-        humidity: data.main.humidity,
         description: data.weather[0].description,
+        humidity: data.main.humidity,
+        temp_max: data.main.temp_max,
+        temp_min: data.main.temp_min,
         error: undefined,
         class:'submitted showing '
       });
@@ -41,10 +49,23 @@ export default class Calendar extends Component {
         country: undefined,
         humidity: undefined,
         description: undefined,
+        humidity: data.main.humidity,
+        temp_max: data.main.temp_max,
+        temp_min: data.main.temp_min,
         error: "Please enter a City and Country Code",
         class: ''
       });
     }
+  }
+
+
+  handleShowWeather = () => {
+    // let showMoreWeather = this.state.showMoreWeather;
+    // console.log(this.state.showMoreWeather);
+    this.setState({
+      showMoreWeather: !this.state.showMoreWeather ? true : false
+    });
+
   }
 
   componentDidMount() {
@@ -54,15 +75,36 @@ export default class Calendar extends Component {
   render() {
     const deg = <sup>&#176;</sup>; //degree symbol
     let temp = Math.floor(this.state.temperature);
+    let maxTemp = this.state.temp_max;
+    let showMoreWeather = this.state.showMoreWeather;
+    console.log(showMoreWeather)
 
     return (
-      <section className="weather">
-        <p className="city">{this.state.city}</p>
-        <p className="temp">{temp}{deg}</p>
-        <p className="description">{this.state.description}</p>
+      <main>
         
-        {/* Output data from calendar api */}
-      </section>
+{!showMoreWeather ? (
+  <section className="weather-info" onClick={this.handleShowWeather}>
+  <p className="city">{this.state.city}</p>
+  <p className="temp">{temp}{deg}</p>
+  <p className="description">{this.state.description}</p>
+  
+</section>
+
+) : (
+
+  <section className="more-weather-info" onClick={this.handleShowWeather}>
+  <p className="humidity">Humidity: {this.state.humidity}%</p>
+  <p className="temp-max">Max Temp: {this.state.temp_max}{deg}</p>
+  <p className="temp-min">Min Temp: {this.state.temp_min}{deg}</p>
+</section>
+)}
+     
+
+
+    
+    
+      </main>
+      
     );
   }
 }
