@@ -19,6 +19,7 @@ section.calendar {
 section.time {
   width:30%;
   padding: 50px 0px;
+  animation: fade-in 0.5s ease-in forwards;
   #time-stamp {
     font-size: .75em;
     text-transform: lowercase;
