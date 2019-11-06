@@ -16,7 +16,7 @@ class Container extends Component {
   render() {
 
     return (
-      <main>
+      <main className="container">
         {/* // <header> */}
           {/* im thinking like, calendar and weather on top */}
           

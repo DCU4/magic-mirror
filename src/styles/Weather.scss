@@ -1,35 +1,41 @@
-section.weather-info {
-  padding: 50px 25px;
-  opacity:0;
-  animation: fade-in 0.5s ease-in forwards;
-  p {
-    &.city {
-      font-size: .75em;
-      
-    }
-    &.temp {
-      font-size: 1.5em;
-      sup {
-        font-size:.6em;
+main {
+  text-align: center;
+  width:30%;
+  section.weather-info {
+    text-align: center;
+    padding: 50px 25px;
+    opacity:0;
+    animation: fade-in 0.5s ease-in forwards;
+    p {
+      text-align: center;
+      &.city {
+        font-size: .75em;
+        
       }
-      
-    }
-    &.description {
-      font-size: .75em;
-      text-transform: capitalize;
-    }
-    &.city {
-      font-size: .75em;
-      
+      &.temp {
+        font-size: 1.5em;
+        sup {
+          font-size:.6em;
+        }
+        
+      }
+      &.description {
+        font-size: .75em;
+        text-transform: capitalize;
+      }
+      &.city {
+        font-size: .75em;
+        
+      }
     }
   }
-}
 
-section.more-weather-info {
-  padding: 50px 25px;
-  opacity:0;
-  animation: fade-in 0.5s ease-in forwards;
-  p {
-    font-size: .5em;
+  section.more-weather-info {
+    padding: 50px 25px;
+    opacity:0;
+    animation: fade-in 0.5s ease-in forwards;
+    p {
+      font-size: .75em;
+    }
   }
 }
