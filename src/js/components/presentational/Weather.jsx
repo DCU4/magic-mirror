@@ -75,15 +75,13 @@ export default class Calendar extends Component {
   render() {
     const deg = <sup>&#176;</sup>; //degree symbol
     let temp = Math.floor(this.state.temperature);
-    let maxTemp = this.state.temp_max;
     let showMoreWeather = this.state.showMoreWeather;
-    console.log(showMoreWeather)
 
     return (
       <main>
         
 {!showMoreWeather ? (
-  <section className="weather-info" onClick={this.handleShowWeather} onTouch={this.handleShowWeather}>
+  <section className="weather-info" onClick={this.handleShowWeather} onTouchStart={this.handleShowWeather}>
   <p className="city">{this.state.city}</p>
   <p className="temp">{temp}{deg}</p>
   <p className="description">{this.state.description}</p>
@@ -92,7 +90,7 @@ export default class Calendar extends Component {
 
 ) : (
 
-  <section className="more-weather-info" onClick={this.handleShowWeather} onTouch={this.handleShowWeather}>
+  <section className="more-weather-info" onClick={this.handleShowWeather} onTouchStart={this.handleShowWeather}>
   <p className="humidity">Humidity: {this.state.humidity}%</p>
   <p className="temp-max">Max Temp: {this.state.temp_max}{deg}</p>
   <p className="temp-min">Min Temp: {this.state.temp_min}{deg}</p>
