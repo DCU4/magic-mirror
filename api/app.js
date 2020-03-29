@@ -135,7 +135,7 @@ var server = http.createServer(app);
 // });
 
 server.listen(process.env.PORT || 3000, function(){
-    console.log('Server started nigga');
+    console.log('Server started');
 });
 
 server.timeout = 1000;
