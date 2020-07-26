@@ -1,43 +1,59 @@
 import React, { Component } from "react";
 
-export default class Weather extends Component {
+export default class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      class: "",
-      events: []
+      class: '',
+      day: '',
+      year: '',
+      month: '',
+      calendar: []
     }
   }
-  
- 
-  render() {
-    let date = new Date();
-    
 
+
+  getCalendar = async () => {
+
+    const api_key = 'AIzaSyAHIB2qQp3jHsiLjn74eHZFT7gXFlpQYUg'
+    // const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=alexandria,usa&appid=${API_KEY}&units=imperial`);
+    // const data = await api_call.json();
+  }
+
+  getToday = () => {
+    let date = new Date();
     var month = [];
-    month[0] = "January";
-    month[1] = "February";
-    month[2] = "March";
-    month[3] = "April";
-    month[4] = "May";
-    month[5] = "June";
-    month[6] = "July";
-    month[7] = "August";
-    month[8] = "September";
-    month[9] = "October";
-    month[10] = "November";
-    month[11] = "December";
-    var day = date.getDate();
-    var year = date.getFullYear();
-    var mon = month[date.getMonth()]
+    month[0] = 'January';
+    month[1] = 'February';
+    month[2] = 'March';
+    month[3] = 'April';
+    month[4] = 'May';
+    month[5] = 'June';
+    month[6] = 'July';
+    month[7] = 'August';
+    month[8] = 'September';
+    month[9] = 'October';
+    month[10] = 'November';
+    month[11] = 'December';
+    this.setState({
+      day:  date.getDate(),
+      year: date.getFullYear(),
+      month: month[date.getMonth()]
+    })
+  }
+  
+  componentDidMount() {
+    // this.getCalendar();
+    this.getToday();
+  }
+  render() {
 
     return (
-      <section className="calendar">
-        <p className="month">{mon}</p>
-        <p className="day">{day}</p>
-        <p className="year">{year}</p>
-
-      </section>
+      <div className="calendar-wrapper">
+        <p className="month">{this.state.month}</p>
+        <p className="day">{this.state.day}</p>
+        <p className="year">{this.state.year}</p>
+      </div>
 
     );
   }

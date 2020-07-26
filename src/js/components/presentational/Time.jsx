@@ -43,9 +43,9 @@ export default class Time extends Component {
 
     
     return (
-      <section className="time">
+      <div className="time-wrapper">
         <p id="time-stamp">{this.state.date.toLocaleTimeString()}</p>
-      </section>
+      </div>
 
     );
   }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 const API_KEY = '55f630c614c9ef35570a0ea5e189ade3';
 
-export default class Calendar extends Component {
+export default class Weather extends Component {
   _isMounted = false;
 
   constructor(props) {
@@ -29,7 +29,7 @@ export default class Calendar extends Component {
   getWeather = async (e) => {
     const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=alexandria,usa&appid=${API_KEY}&units=imperial`);
     const data = await api_call.json();
-    console.log(data);
+    // console.log(data);
     if (data){
       this.setState({
         temperature: data.main.temp,
@@ -79,26 +79,26 @@ export default class Calendar extends Component {
     
     // probably need some error handling
     return (
-      <main className={`${this.state.class}`}>
+      <div className={`${this.state.class}`}>
                 
         {!showMoreWeather ? (
-          <section className="weather-info" onClick={this.handleShowWeather} onTouchStart={this.handleShowWeather}>
+          <div className="weather-info" onClick={this.handleShowWeather} onTouchStart={this.handleShowWeather}>
           <p className="city">{this.state.city}</p>
           <p className="temp">{temp}{deg}</p>
           <p className="description">{this.state.description}</p>
           
-        </section>
+        </div>
 
         ) : (
 
-          <section className="more-weather-info" onClick={this.handleShowWeather} onTouchStart={this.handleShowWeather}>
+          <div className="more-weather-info" onClick={this.handleShowWeather} onTouchStart={this.handleShowWeather}>
           <p className="humidity">Humidity: {this.state.humidity}%</p>
           <p className="temp-max">Max Temp: {this.state.temp_max}{deg}</p>
           <p className="temp-min">Min Temp: {this.state.temp_min}{deg}</p>
-        </section>
+        </div>
         )}
           
-      </main>
+      </div>
       
     );
   }

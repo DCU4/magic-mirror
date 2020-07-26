@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Calendar from "../presentational/Calendar.jsx";
 import Weather from "../presentational/Weather.jsx";
 import Time from "../presentational/Time.jsx";
+import Quote from "../presentational/Quote.jsx";
 
 class Container extends Component {
   constructor(props) {
@@ -17,17 +18,25 @@ class Container extends Component {
 
     return (
       <main className="container">
-        {/* // <header> */}
-          {/* im thinking like, calendar and weather on top */}
-          
+        <div className="wrapper">
+        <section className="weather">
           <Weather />
-          <Time />
-          <Calendar />
-        {/* // </header> */}
+        </section>
 
+        <section className="time">
+          <Time />
+        </section>
+
+        <section className="calendar">
+          <Calendar />
+        </section>
         
-       </main>
-      );
+        <Quote />
+        </div>
+        
+      
+      </main>
+    );
   }
 }
 export default Container;
