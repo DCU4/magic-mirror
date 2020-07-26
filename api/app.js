@@ -1,141 +1,95 @@
-var express = require("express"),
-    app = express(),
-    bodyParser = require("body-parser"),
-    cors = require('cors'),
-    mongoose = require('mongoose'),
-    methodOverride = require('method-override');
+const fs = require('fs');
+const readline = require('readline');
+const {google} = require('googleapis');
 
+// If modifying these scopes, delete token.json.
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+// The file token.json stores the user's access and refresh tokens, and is
+// created automatically when the authorization flow completes for the first
+// time.
+const TOKEN_PATH = 'token.json';
 
-
-// mongoose.connect('mongodb://localhost:27017/notes', { useNewUrlParser: true });
-mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true });
-
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use(cors());
-app.use(methodOverride('_method'));
-
-
-
-var noteSchema = new mongoose.Schema({
-    note: String,
-    created: { type: Date, default: Date.now },
+// Load client secrets from a local file.
+fs.readFile('credentials.json', (err, content) => {
+  if (err) return console.log('Error loading client secret file:', err);
+  // Authorize a client with credentials, then call the Google Calendar API.
+  console.log(JSON.parse(content));
+  authorize(JSON.parse(content), listEvents);
 });
 
-var Note = mongoose.model('Note', noteSchema);
+/**
+ * Create an OAuth2 client with the given credentials, and then execute the
+ * given callback function.
+ * @param {Object} credentials The authorization client credentials.
+ * @param {function} callback The callback to call with the authorized client.
+ */
+function authorize(credentials, callback) {
+  const {client_secret, client_id, redirect_uris} = credentials.web;
+  const oAuth2Client = new google.auth.OAuth2(
+      client_id, client_secret, redirect_uris[0]);
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+  // Check if we have previously stored a token.
+  fs.readFile(TOKEN_PATH, (err, token) => {
+    if (err) return getAccessToken(oAuth2Client, callback);
+    oAuth2Client.setCredentials(JSON.parse(token));
+    callback(oAuth2Client);
+  });
+}
 
-
-
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
-// Note.create( {
-//     note: 'A test note'
-//     },
-//     function(err,note){
-//         if(err){
-//             console.log(err);
-//         } else {
-//             console.log('yes');
-//             console.log(note);
-//         }
-// });
-
-//note list page
-// app.get('/', function(req, res, next){
-
-//   res.render('index');
-
-// });
-
-
-
-
-// //single note page
-// app.get('/:id', cors(), function (req, res, next) {
-//     // find campgorund with correct id, render the template
-//     Note.findById(req.params.id, function (err, foundNote) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             // res.render('single',{notes:foundNote});
-//             res.send({ notes: foundNote });
-//         }
-//     });
-
-// });
-
-//note list page
-app.get('/', cors(), function (req, res, next) {
-    //Get all kees from DB -- find.({}) means ALL kees
-
-    Note.find({}, function (err, allNotes) {
-        if (err) {
-            console.log(err);
-        } else {
-            // res.render('/',{notes: allNotes });
-            res.send({ notes: allNotes });
-            // res.send('sending data from server');
-            // console.log(allNotes);
-            // console.log(req.user.username);
-
-        }
+/**
+ * Get and store new token after prompting for user authorization, and then
+ * execute the given callback with the authorized OAuth2 client.
+ * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+ * @param {getEventsCallback} callback The callback for the authorized client.
+ */
+function getAccessToken(oAuth2Client, callback) {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES,
+  });
+  console.log('Authorize this app by visiting this url:', authUrl);
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  rl.question('Enter the code from that page here: ', (code) => {
+    rl.close();
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) return console.error('Error retrieving access token', err);
+      oAuth2Client.setCredentials(token);
+      // Store the token to disk for later program executions
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+        if (err) return console.error(err);
+        console.log('Token stored to', TOKEN_PATH);
+      });
+      callback(oAuth2Client);
     });
+  });
+}
 
-});
-
-
-//update route
-app.put('/:id', function(req,res) {
-  var editedNote = { note: req.body.note };
-  Note.findByIdAndUpdate(req.params.id, editedNote, function (err, updatedNote) {
-    if (err) {
-        console.log(err);
+/**
+ * Lists the next 10 events on the user's primary calendar.
+ * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ */
+function listEvents(auth) {
+  const calendar = google.calendar({version: 'v3', auth});
+  calendar.events.list({
+    calendarId: 'primary',
+    timeMin: (new Date()).toISOString(),
+    maxResults: 10,
+    singleEvents: true,
+    orderBy: 'startTime',
+  }, (err, res) => {
+    if (err) return console.log('The API returned an error: ' + err);
+    const events = res.data.items;
+    if (events.length) {
+      console.log('Upcoming 10 events:');
+      events.map((event, i) => {
+        const start = event.start.dateTime || event.start.date;
+        console.log(`${start} - ${event.summary}`);
+      });
     } else {
-        // res.render('single',{notes:foundNote});
-        res.send({ notes: updatedNote });
+      console.log('No upcoming events found.');
     }
   });
-})
-
-
-//DESTROY route
-app.delete('/:id', function(req,res) {
-    console.log(req);
-  Note.findByIdAndRemove(req.params.id, function (err) {
-    if (err) {
-        console.log(err);
-    }
-  });
-})
-
-var http = require("http");
-
-var port = "8080";
-// var port = process.env.PORT || "8081";
-app.set("port", port);
-
-
-var server = http.createServer(app);
-
-// server.listen(port, function(){
-//     console.log('Server started');
-// });
-
-// app.listen(process.env.PORT, process.env.IP, function () {
-//     console.log('Server started');
-// });
-
-server.listen(process.env.PORT || 3000, function(){
-    console.log('Server started');
-});
-
-server.timeout = 1000;
+}
